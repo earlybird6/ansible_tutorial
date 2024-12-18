@@ -1,0 +1,41 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install updates (CentOS)
+    dnf :
+      update_only: yes 
+      update_ cache: yes
+      when: ansible_distribution == "CentOS"
+      
+  - name: install updates (Ubuntu)
+    dnf :
+      update_only: yes 
+      update_ cache: yes
+      when: ansible_distribution == "Ubuntu"
+      
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache2 package on the remote hosts
+    package:
+      name: {{ apache_package }} 
+      name: {{ php_package }} 
+      state: latest
+      update_cache: yes
+
+- hosts: db_servers become: true tasks:
+  - name: install mariadb package (CentoS)
+    dnf :
+      name: mariadb state: latest
+      when: ansible_distribution == "CentOS"
+
+  - name: install mariadb package (Ubuntu)
+    apt:
+      name: mariadb-server
+      state: latest
+      when: ansible_distribution == "Ubuntu"
+
