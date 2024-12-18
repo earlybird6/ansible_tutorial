@@ -6,8 +6,8 @@
 
   - name: install apache2 package on the remote hosts
     apt:
-      name: apache2 
-      name: libapache2-mod- php 
+      name: {{ apache_package }} 
+      name: {{ php_package }} 
       state: latest
       update_cache: yes
       when: ansible_distribution_version == "Ubuntu"
